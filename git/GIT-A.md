@@ -58,7 +58,7 @@
 	- git branch -u origin/serverfix #修改正在跟踪的上游分支
 	- git branch -vv #查看所有的本地分支跟踪的上游分支
 	- git fetch --all; git branch -vv #这个和上一个命令不同在于，这会显示你本地每个分支和远端库最新分支的差距，而上一个显示的是本地分支和你最后一次抓取的数据差异
-1. 推送本地分支到远程库
+3. 推送本地分支到远程库
 	- git push orgin serverfix #推送本地库serverfix到远程库的serverfix分支
 	- git push orgin serverfix：awesomebranch #推送本地库serverfix到远端库，并将这个分支在远端库命名为awesomebranch	
 	- git remote show origin #查看远端代码库信息
@@ -67,11 +67,11 @@
 1. 列标签
 	 - git tag 
 	 - git tag -l "v1.8.5*" #这里使用正则显示标签
- 2. 创建标签
+2. 创建标签
 	 1. 创建附注标签：git tag -a v1.0 -m "my version 1.0"
 	 2. 创建轻量标签：git tag -v1.0 
- 3. 显示某一标签信息：git show V1.0
- 4. 后期标签
+3. 显示某一标签信息：git show V1.0
+4. 后期标签
 	 1. git log --pretty=oneline #显示所有的提交点信息
 	 2. git tag -a v1.1 9fceb02 #后边的代码表示对应提交信息的哈希值
 5. 传送标签到远端库
@@ -82,4 +82,15 @@
 	- 删除远端库标签：在删除本地库标签后，git push origin ：refs/tags/v1.1 或者 git push origin --delete v1.1
 7. 检出标签(查看某一具体的文件版本)
 	- git checkout v1.1
-	- 此刻你处于分离头状态(detached HEAD)，在这时你提交了一些变化，标签不会发生变化，但是你的提交分支，无法访问，除非使用具体的哈希值才能访问，因此如果你需要对某个特定的版本进行修改的时候需要创建分支：git checkout -b version2 v1.1；如果这时你在提交，
+	- 修改标签处版本内容：
+		1. 创建分支：'git checkout -b v1.0-version2 v1.0'   # 在v1.0标签的位置，创建一个分支
+		4. 本地修改内容后添加暂存区：git add.
+		5. 添加本地库：git commit  -m "v1.0 update"
+		6. 将这个分支合并到主分支main上
+			1. git checkout main
+			2. git merge v1.0-branch
+		7. 打一个新的标签
+			1. git tag v1.0-update
+			2. 或者使用git tag -f v1.0 #覆盖之前v1标签
+		8. 推送到远端库
+			1. git push origin main --tags #最后参数表示同时要推送标签到远端库
